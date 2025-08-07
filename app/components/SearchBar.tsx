@@ -1,40 +1,49 @@
+import { Ionicons } from "@expo/vector-icons";
+import { LinearGradient } from "expo-linear-gradient";
 import React from "react";
-import { StyleSheet, Text, TextInput, View } from "react-native";
+import { StyleSheet, TextInput, View } from "react-native";
 
 export default function SearchBar() {
   return (
     <View style={styles.container}>
-      <View style={styles.searchBar}>
-        <Text style={styles.searchIcon}>🔍</Text>
+      <LinearGradient
+        colors={["#3A3A3A", "#2A2A2A", "#1A1A1A"]}
+        start={{ x: 0, y: 0 }}
+        end={{ x: 1, y: 0 }}
+        style={styles.searchBar}
+      >
+        <Ionicons
+          name="search-outline"
+          size={28}
+          color="#fff"
+          style={styles.searchIcon}
+        />
         <TextInput
           style={styles.input}
           placeholder="Search movie, cinema, genre..."
           placeholderTextColor="#9CA3AF"
         />
-      </View>
+      </LinearGradient>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    paddingHorizontal: 20,
+    paddingHorizontal: 32,
     marginTop: 20,
   },
   searchBar: {
     flexDirection: "row",
     alignItems: "center",
-    backgroundColor: "#2A2A2A",
-    borderRadius: 12,
+    borderRadius: 18,
     paddingHorizontal: 16,
-    paddingVertical: 12,
+    paddingVertical: 16,
     borderWidth: 1,
     borderColor: "#3A3A3A",
   },
   searchIcon: {
-    fontSize: 16,
     marginRight: 12,
-    color: "#FFFFFF",
   },
   input: {
     flex: 1,
