@@ -6,15 +6,14 @@ export default function WelcomeBoard() {
     <View style={styles.container}>
       <View style={styles.welcomeSection}>
         <View style={styles.welcomeText}>
-          <Text style={styles.welcomeMessage}>Welcome Ryan</Text>
-          <Text style={styles.waveEmoji}>👋</Text>
+          <Text style={styles.welcomeMessage}>Welcome N95Ryan 👋</Text>
         </View>
         <Text style={styles.subtitle}>Let&apos;s relax and watch a movie.</Text>
       </View>
       <View style={styles.profileSection}>
         <Image
           source={{
-            uri: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop&crop=face",
+            uri: "https://avatars.githubusercontent.com/u/52971403?v=4",
           }}
           style={styles.profileImage}
         />
@@ -30,6 +29,8 @@ const styles = StyleSheet.create({
     alignItems: "flex-start",
     paddingHorizontal: 20,
     paddingTop: 10,
+    marginHorizontal: 16,
+    marginVertical: 12,
   },
   welcomeSection: {
     flex: 1,
@@ -40,7 +41,7 @@ const styles = StyleSheet.create({
     marginBottom: 4,
   },
   welcomeMessage: {
-    fontSize: 16,
+    fontSize: 14,
     color: "#9CA3AF",
     fontWeight: "400",
     marginRight: 8,
@@ -49,19 +50,17 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   subtitle: {
-    fontSize: 24,
-    color: "#FFFFFF",
-    fontWeight: "700",
-    lineHeight: 32,
+    fontSize: 16,
+    color: "#fff",
+    fontWeight: "500",
+    lineHeight: 24,
   },
   profileSection: {
     marginLeft: 16,
   },
   profileImage: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
-    borderWidth: 2,
-    borderColor: "#3A3A3A",
+    width: 45,
+    height: 45,
+    borderRadius: 10,
   },
 });
