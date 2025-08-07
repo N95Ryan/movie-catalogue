@@ -32,6 +32,6 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   scrollContent: {
-    paddingBottom: 20, // Espace minimal en bas
+    paddingBottom: 20,
   },
 });

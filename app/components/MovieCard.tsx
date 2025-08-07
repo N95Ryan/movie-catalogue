@@ -1,96 +1,126 @@
-import { router } from "expo-router";
 import React from "react";
-import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import { Movie } from "../../types/movie";
+import {
+  Animated,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
+
+interface Movie {
+  id: number;
+  title: string;
+  genre: string;
+}
 
 interface MovieCardProps {
   movie: Movie;
+  index: number;
+  scrollX: Animated.Value;
+  snapInterval: number;
 }
 
-export default function MovieCard({ movie }: MovieCardProps) {
-  const handlePress = () => {
-    router.push({
-      pathname: "/movie/[id]",
-      params: { id: movie.id.toString() },
-    });
-  };
+export default function MovieCard({
+  movie,
+  index,
+  scrollX,
+  snapInterval,
+}: MovieCardProps) {
+  const inputRange = [
+    (index - 1) * snapInterval,
+    index * snapInterval,
+    (index + 1) * snapInterval,
+  ];
+
+  const scale = scrollX.interpolate({
+    inputRange,
+    outputRange: [0.8, 1, 0.8],
+    extrapolate: "clamp",
+  });
+
+  const rotate = scrollX.interpolate({
+    inputRange,
+    outputRange: ["6deg", "0deg", "-6deg"],
+    extrapolate: "clamp",
+  });
+
+  const opacity = scrollX.interpolate({
+    inputRange,
+    outputRange: [0.5, 1, 0.5],
+    extrapolate: "clamp",
+  });
 
   return (
-    <TouchableOpacity style={styles.card} onPress={handlePress}>
-      <View style={styles.imageContainer}>
-        <Image
-          source={{
-            uri: `https://image.tmdb.org/t/p/w300${movie.poster_path}`,
-          }}
-          style={styles.poster}
-          resizeMode="cover"
-        />
-        <View style={styles.ratingContainer}>
-          <Text style={styles.rating}>⭐ {movie.vote_average.toFixed(1)}</Text>
+    <Animated.View
+      style={[
+        styles.movieCard,
+        { transform: [{ scale }, { rotate }], opacity },
+      ]}
+    >
+      <TouchableOpacity style={styles.cardContainer}>
+        <View style={styles.posterContainer}>
+          <View style={styles.posterPlaceholder}>
+            <Text style={styles.posterText} numberOfLines={3}>
+              {movie.title}
+            </Text>
+          </View>
         </View>
-      </View>
-
-      <View style={styles.content}>
-        <Text style={styles.title} numberOfLines={2}>
-          {movie.title}
-        </Text>
-        <Text style={styles.year}>
-          {new Date(movie.release_date).getFullYear()}
-        </Text>
-      </View>
-    </TouchableOpacity>
+        <View style={styles.movieInfo}>
+          <Text style={styles.movieTitle} numberOfLines={1}>
+            {movie.title}
+          </Text>
+          <Text style={styles.movieGenre}>{movie.genre}</Text>
+        </View>
+      </TouchableOpacity>
+    </Animated.View>
   );
 }
 
 const styles = StyleSheet.create({
-  card: {
-    flex: 1,
-    margin: 4,
-    backgroundColor: "#fff",
-    borderRadius: 8,
-    overflow: "hidden",
-    elevation: 2,
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
+  movieCard: {
+    width: 280,
+    marginHorizontal: 8,
+    alignItems: "center",
   },
-  imageContainer: {
-    position: "relative",
-  },
-  poster: {
+  cardContainer: {
     width: "100%",
-    height: 200,
+    alignItems: "center",
   },
-  ratingContainer: {
-    position: "absolute",
-    top: 8,
-    right: 8,
-    backgroundColor: "rgba(0, 0, 0, 0.7)",
-    paddingHorizontal: 6,
-    paddingVertical: 2,
-    borderRadius: 4,
+  posterContainer: {
+    width: "100%",
+    height: 320,
+    borderRadius: 24,
+    overflow: "hidden",
+    backgroundColor: "#1f1f1f",
   },
-  rating: {
-    color: "#fff",
-    fontSize: 12,
+  posterPlaceholder: {
+    flex: 1,
+    backgroundColor: "#2A2A2A",
+    justifyContent: "center",
+    alignItems: "center",
+    padding: 20,
+  },
+  posterText: {
+    color: "#FFFFFF",
+    fontSize: 16,
     fontWeight: "600",
+    textAlign: "center",
   },
-  content: {
-    padding: 8,
+  movieInfo: {
+    marginTop: 12,
+    alignItems: "center",
   },
-  title: {
-    fontSize: 14,
-    fontWeight: "600",
-    color: "#333",
+  movieTitle: {
+    fontSize: 22,
+    fontWeight: "500",
+    color: "#FFFFFF",
     marginBottom: 4,
-    lineHeight: 18,
+    textAlign: "center",
   },
-  year: {
-    fontSize: 12,
-    color: "#666",
+  movieGenre: {
+    fontSize: 16,
+    color: "#9CA3AF",
+    fontWeight: "400",
+    textAlign: "center",
   },
 });

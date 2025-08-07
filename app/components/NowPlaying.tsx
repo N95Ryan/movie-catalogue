@@ -1,11 +1,16 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import {
+  Animated,
+  Dimensions,
   FlatList,
+  NativeScrollEvent,
+  NativeSyntheticEvent,
   StyleSheet,
   Text,
   TouchableOpacity,
   View,
 } from "react-native";
+import MovieCard from "./MovieCard";
 
 interface Movie {
   id: number;
@@ -18,57 +23,38 @@ interface NowPlayingProps {
 }
 
 const defaultMovies: Movie[] = [
-  {
-    id: 1,
-    title: "Spider-Man No Way Home",
-    genre: "Adventure",
-  },
-  {
-    id: 2,
-    title: "GOL",
-    genre: "Action",
-  },
-  {
-    id: 3,
-    title: "The Matrix Resurrections",
-    genre: "Sci-Fi",
-  },
-  {
-    id: 4,
-    title: "Dune",
-    genre: "Adventure",
-  },
-  {
-    id: 5,
-    title: "No Time to Die",
-    genre: "Action",
-  },
+  { id: 1, title: "Spider-Man No Way Home", genre: "Adventure" },
+  { id: 2, title: "GOL", genre: "Action" },
+  { id: 3, title: "The Matrix Resurrections", genre: "Sci-Fi" },
+  { id: 4, title: "Dune", genre: "Adventure" },
+  { id: 5, title: "No Time to Die", genre: "Action" },
 ];
+
+const { width: SCREEN_WIDTH } = Dimensions.get("window");
+const CARD_WIDTH = 280;
+const CARD_SPACING = 16;
+const SNAP_INTERVAL = CARD_WIDTH + CARD_SPACING;
 
 export default function NowPlaying({
   movies = defaultMovies,
 }: NowPlayingProps) {
+  const flatListRef = useRef<FlatList>(null);
+  const scrollX = useRef(new Animated.Value(0)).current;
   const [activeIndex, setActiveIndex] = useState(0);
+  const movieCount = movies.length;
 
-  const renderMovieCard = ({ item }: { item: Movie }) => (
-    <TouchableOpacity style={styles.movieCard}>
-      <View style={styles.posterContainer}>
-        <View style={styles.posterPlaceholder}>
-          <Text style={styles.posterText}>{item.title}</Text>
-        </View>
-      </View>
-      <View style={styles.movieInfo}>
-        <Text style={styles.movieTitle} numberOfLines={1}>
-          {item.title}
-        </Text>
-        <Text style={styles.movieGenre}>{item.genre}</Text>
-      </View>
-    </TouchableOpacity>
+  const renderMovieCard = ({ item, index }: { item: Movie; index: number }) => (
+    <MovieCard
+      movie={item}
+      index={index}
+      scrollX={scrollX}
+      snapInterval={SNAP_INTERVAL}
+    />
   );
 
   const renderPaginationDots = () => (
     <View style={styles.paginationContainer}>
-      {movies.slice(0, 5).map((_, index) => (
+      {movies.map((_, index) => (
         <View
           key={index}
           style={[
@@ -89,18 +75,50 @@ export default function NowPlaying({
         </TouchableOpacity>
       </View>
 
-      <FlatList
-        data={movies}
-        renderItem={renderMovieCard}
-        keyExtractor={(item) => item.id.toString()}
-        horizontal
-        showsHorizontalScrollIndicator={false}
-        contentContainerStyle={styles.carousel}
-        onMomentumScrollEnd={(event) => {
-          const index = Math.round(event.nativeEvent.contentOffset.x / 280);
-          setActiveIndex(index);
-        }}
-      />
+      <View style={styles.carouselContainer}>
+        <Animated.FlatList
+          ref={flatListRef}
+          data={movies}
+          renderItem={renderMovieCard}
+          keyExtractor={(item) => item.id.toString()}
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          contentContainerStyle={{
+            paddingHorizontal: (SCREEN_WIDTH - CARD_WIDTH) / 2,
+          }}
+          snapToInterval={SNAP_INTERVAL}
+          decelerationRate="fast"
+          bounces={false}
+          scrollEventThrottle={16}
+          onScroll={Animated.event(
+            [{ nativeEvent: { contentOffset: { x: scrollX } } }],
+            { useNativeDriver: false }
+          )}
+          onMomentumScrollEnd={(
+            event: NativeSyntheticEvent<NativeScrollEvent>
+          ) => {
+            let offsetX = event.nativeEvent.contentOffset.x;
+            let index = Math.round(offsetX / SNAP_INTERVAL);
+
+            if (index >= movieCount) {
+              flatListRef.current?.scrollToOffset({
+                offset: 0,
+                animated: false,
+              });
+              setActiveIndex(0);
+            } else if (index < 0) {
+              const lastOffset = (movieCount - 1) * SNAP_INTERVAL;
+              flatListRef.current?.scrollToOffset({
+                offset: lastOffset,
+                animated: false,
+              });
+              setActiveIndex(movieCount - 1);
+            } else {
+              setActiveIndex(index);
+            }
+          }}
+        />
+      </View>
 
       {renderPaginationDots()}
     </View>
@@ -109,66 +127,29 @@ export default function NowPlaying({
 
 const styles = StyleSheet.create({
   container: {
-    marginTop: 30,
+    marginTop: 24,
   },
   header: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    paddingHorizontal: 20,
+    paddingHorizontal: 36, // 20 + 16 pour l'alignement
     marginBottom: 16,
   },
   sectionTitle: {
-    fontSize: 20,
-    fontWeight: "700",
+    fontSize: 22,
+    fontWeight: "400",
     color: "#FFFFFF",
+    marginBottom: 8,
   },
   seeAllText: {
     fontSize: 14,
     color: "#FF9500",
     fontWeight: "600",
   },
-  carousel: {
-    paddingHorizontal: 20,
-  },
-  movieCard: {
-    width: 280,
-    marginRight: 16,
-  },
-  posterContainer: {
-    width: "100%",
-    height: 400,
-    borderRadius: 12,
-    overflow: "hidden",
-  },
-  posterPlaceholder: {
-    width: "100%",
-    height: "100%",
-    backgroundColor: "#2A2A2A",
+  carouselContainer: {
+    height: 450,
     justifyContent: "center",
-    alignItems: "center",
-  },
-  posterText: {
-    color: "#FFFFFF",
-    fontSize: 16,
-    fontWeight: "600",
-    textAlign: "center",
-    paddingHorizontal: 20,
-  },
-  movieInfo: {
-    marginTop: 12,
-    paddingHorizontal: 4,
-  },
-  movieTitle: {
-    fontSize: 16,
-    fontWeight: "600",
-    color: "#FFFFFF",
-    marginBottom: 4,
-  },
-  movieGenre: {
-    fontSize: 14,
-    color: "#9CA3AF",
-    fontWeight: "400",
   },
   paginationContainer: {
     flexDirection: "row",

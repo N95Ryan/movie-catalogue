@@ -28,7 +28,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "flex-start",
     paddingHorizontal: 20,
-    paddingTop: 10,
+    paddingTop: 8,
     marginHorizontal: 16,
     marginVertical: 12,
   },
@@ -51,9 +51,9 @@ const styles = StyleSheet.create({
   },
   subtitle: {
     fontSize: 16,
-    color: "#fff",
-    fontWeight: "500",
-    lineHeight: 24,
+    color: "#FFFFFF",
+    fontWeight: "400",
+    lineHeight: 32,
   },
   profileSection: {
     marginLeft: 16,

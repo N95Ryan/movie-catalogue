@@ -74,13 +74,13 @@ export default function ComingSoon({
 
 const styles = StyleSheet.create({
   container: {
-    marginTop: 30,
+    marginTop: 24,
   },
   header: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    paddingHorizontal: 20,
+    paddingHorizontal: 36, // 20 + 16 pour l'alignement
     marginBottom: 16,
   },
   sectionTitle: {
