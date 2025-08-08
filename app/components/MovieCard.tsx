@@ -82,11 +82,6 @@ export default function MovieCard({
               </Text>
             </View>
           )}
-          {movie.rating && (
-            <View style={styles.ratingContainer}>
-              <Text style={styles.ratingText}>★ {movie.rating.toFixed(1)}</Text>
-            </View>
-          )}
         </View>
         <View style={styles.movieInfo}>
           <Text style={styles.movieTitle} numberOfLines={1}>
@@ -94,9 +89,6 @@ export default function MovieCard({
           </Text>
           <View style={styles.movieDetails}>
             <Text style={styles.movieGenre}>{movie.genre}</Text>
-            {movie.year && (
-              <Text style={styles.movieYear}> • {movie.year}</Text>
-            )}
           </View>
         </View>
       </TouchableOpacity>
@@ -139,20 +131,6 @@ const styles = StyleSheet.create({
     fontWeight: "500",
     textAlign: "center",
   },
-  ratingContainer: {
-    position: "absolute",
-    top: 12,
-    right: 12,
-    backgroundColor: "rgba(0, 0, 0, 0.7)",
-    borderRadius: 12,
-    paddingHorizontal: 8,
-    paddingVertical: 4,
-  },
-  ratingText: {
-    color: "#FF9500",
-    fontSize: 12,
-    fontWeight: "600",
-  },
   movieInfo: {
     marginTop: 12,
     alignItems: "center",
@@ -174,10 +152,5 @@ const styles = StyleSheet.create({
     color: "#9CA3AF",
     fontWeight: "400",
     textAlign: "center",
-  },
-  movieYear: {
-    fontSize: 16,
-    color: "#9CA3AF",
-    fontWeight: "400",
   },
 });
