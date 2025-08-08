@@ -16,18 +16,62 @@ interface Movie {
   id: number;
   title: string;
   genre: string;
+  posterUrl?: string;
+  rating?: number;
+  year?: number;
 }
 
 interface NowPlayingProps {
   movies?: Movie[];
+  onMoviePress?: (movie: Movie) => void;
 }
 
 const defaultMovies: Movie[] = [
-  { id: 1, title: "The Matrix Resurrections", genre: "Sci-Fi" },
-  { id: 2, title: "GOL", genre: "Action" },
-  { id: 3, title: "Spider-Man No Way Home", genre: "Adventure" },
-  { id: 4, title: "Dune", genre: "Adventure" },
-  { id: 5, title: "No Time to Die", genre: "Action" },
+  {
+    id: 1,
+    title: "The Matrix Resurrections",
+    genre: "Sci-Fi",
+    posterUrl:
+      "https://image.tmdb.org/t/p/w500/8Gxv8gSFCU0XGDykEGv7zR1n2ua.jpg",
+    rating: 8.2,
+    year: 2021,
+  },
+  {
+    id: 2,
+    title: "GOL",
+    genre: "Action",
+    posterUrl:
+      "https://image.tmdb.org/t/p/w500/1E5baAaEse26fej7uHcjOgEE2t2.jpg",
+    rating: 7.8,
+    year: 2022,
+  },
+  {
+    id: 3,
+    title: "Spider-Man No Way Home",
+    genre: "Adventure",
+    posterUrl:
+      "https://image.tmdb.org/t/p/w500/1g0dhYtq4irTY1GPXvft6k4YLjm.jpg",
+    rating: 8.5,
+    year: 2021,
+  },
+  {
+    id: 4,
+    title: "Dune",
+    genre: "Adventure",
+    posterUrl:
+      "https://image.tmdb.org/t/p/w500/d5NXSklXo0qyIYkgV94XAgMIckC.jpg",
+    rating: 8.0,
+    year: 2021,
+  },
+  {
+    id: 5,
+    title: "No Time to Die",
+    genre: "Action",
+    posterUrl:
+      "https://image.tmdb.org/t/p/w500/iUgygt3fscRoKWCV1d0C7FbM9TP.jpg",
+    rating: 7.3,
+    year: 2021,
+  },
 ];
 
 const { width: SCREEN_WIDTH } = Dimensions.get("window");
@@ -37,6 +81,7 @@ const SNAP_INTERVAL = CARD_WIDTH + CARD_SPACING;
 
 export default function NowPlaying({
   movies = defaultMovies,
+  onMoviePress,
 }: NowPlayingProps) {
   const flatListRef = useRef<FlatList>(null);
   const scrollX = useRef(new Animated.Value(0)).current;
@@ -60,6 +105,7 @@ export default function NowPlaying({
       index={index}
       scrollX={scrollX}
       snapInterval={SNAP_INTERVAL}
+      onPress={onMoviePress}
     />
   );
 

@@ -1,6 +1,7 @@
 import React from "react";
 import {
   Animated,
+  Image,
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -11,6 +12,9 @@ interface Movie {
   id: number;
   title: string;
   genre: string;
+  posterUrl?: string;
+  rating?: number;
+  year?: number;
 }
 
 interface MovieCardProps {
@@ -18,6 +22,7 @@ interface MovieCardProps {
   index: number;
   scrollX: Animated.Value;
   snapInterval: number;
+  onPress?: (movie: Movie) => void;
 }
 
 export default function MovieCard({
@@ -25,6 +30,7 @@ export default function MovieCard({
   index,
   scrollX,
   snapInterval,
+  onPress,
 }: MovieCardProps) {
   const inputRange = [
     (index - 1) * snapInterval,
@@ -57,19 +63,41 @@ export default function MovieCard({
         { transform: [{ scale }, { rotate }], opacity },
       ]}
     >
-      <TouchableOpacity style={styles.cardContainer}>
+      <TouchableOpacity
+        style={styles.cardContainer}
+        onPress={() => onPress?.(movie)}
+        activeOpacity={0.8}
+      >
         <View style={styles.posterContainer}>
-          <View style={styles.posterPlaceholder}>
-            <Text style={styles.posterText} numberOfLines={3}>
-              {movie.title}
-            </Text>
-          </View>
+          {movie.posterUrl ? (
+            <Image
+              source={{ uri: movie.posterUrl }}
+              style={styles.posterImage}
+              resizeMode="cover"
+            />
+          ) : (
+            <View style={styles.posterPlaceholder}>
+              <Text style={styles.posterText} numberOfLines={3}>
+                {movie.title}
+              </Text>
+            </View>
+          )}
+          {movie.rating && (
+            <View style={styles.ratingContainer}>
+              <Text style={styles.ratingText}>★ {movie.rating.toFixed(1)}</Text>
+            </View>
+          )}
         </View>
         <View style={styles.movieInfo}>
           <Text style={styles.movieTitle} numberOfLines={1}>
             {movie.title}
           </Text>
-          <Text style={styles.movieGenre}>{movie.genre}</Text>
+          <View style={styles.movieDetails}>
+            <Text style={styles.movieGenre}>{movie.genre}</Text>
+            {movie.year && (
+              <Text style={styles.movieYear}> • {movie.year}</Text>
+            )}
+          </View>
         </View>
       </TouchableOpacity>
     </Animated.View>
@@ -92,6 +120,11 @@ const styles = StyleSheet.create({
     borderRadius: 24,
     overflow: "hidden",
     backgroundColor: "#1f1f1f",
+    position: "relative",
+  },
+  posterImage: {
+    width: "100%",
+    height: "100%",
   },
   posterPlaceholder: {
     flex: 1,
@@ -106,6 +139,20 @@ const styles = StyleSheet.create({
     fontWeight: "500",
     textAlign: "center",
   },
+  ratingContainer: {
+    position: "absolute",
+    top: 12,
+    right: 12,
+    backgroundColor: "rgba(0, 0, 0, 0.7)",
+    borderRadius: 12,
+    paddingHorizontal: 8,
+    paddingVertical: 4,
+  },
+  ratingText: {
+    color: "#FF9500",
+    fontSize: 12,
+    fontWeight: "600",
+  },
   movieInfo: {
     marginTop: 12,
     alignItems: "center",
@@ -117,10 +164,20 @@ const styles = StyleSheet.create({
     marginBottom: 4,
     textAlign: "center",
   },
+  movieDetails: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+  },
   movieGenre: {
     fontSize: 16,
     color: "#9CA3AF",
     fontWeight: "400",
     textAlign: "center",
+  },
+  movieYear: {
+    fontSize: 16,
+    color: "#9CA3AF",
+    fontWeight: "400",
   },
 });

@@ -1,72 +1,117 @@
-# Movie Catalogue App
+# 🎬 Movie Catalogue App
 
-A simple React Native movie catalogue application built with Expo.
+A **React Native + Expo** mobile application built as part of the Panda Hub technical test.  
+The app displays a list of popular movies from **The Movie Database (TMDB)** API with a detail view for each movie.
 
-## Features
+## 📋 Features
 
-- **Welcome Screen**: Personalized greeting with user profile
-- **Search Bar**: Movie search with gradient design
-- **Now Playing**: Interactive carousel with smooth animations
-- **Coming Soon**: List of upcoming movies
-- **Dark Theme**: Modern dark UI design
+- **Welcome Screen**: Personalized greeting with user profile picture
+- **Search Bar**: Gradient-styled search input with interactive functionality
+- **Now Playing**: Interactive, animated carousel of currently playing movies
+- **Coming Soon**: Vertical list of upcoming movies with sample data
+- **Detail Screen**: Full movie information (overview, release date, rating, etc.)
+- **Pixel-perfect UI**: Matches provided design specifications
+- **Responsive**: Tested on Android and iOS simulators
 
-## Tech Stack
+## 🛠 Tech Stack
 
-- **React Native** with Expo
-- **TypeScript** for type safety
-- **Expo Router** for navigation
-- **Animated API** for smooth animations
-- **Linear Gradient** for visual effects
+- **Framework**: [React Native](https://reactnative.dev/) with [Expo](https://docs.expo.dev/)
+- **Language**: [TypeScript](https://www.typescriptlang.org/)
+- **Navigation**: [React Navigation](https://reactnavigation.org/)
+- **State Management**: React Hooks with custom hooks
+- **HTTP Requests**: [Axios](https://axios-http.com/) with typed interfaces
+- **API**: [The Movie Database (TMDB)](https://developer.themoviedb.org/docs)
+- **Image Handling**: Expo Image for optimized performance
+- **UI Components**: Custom components with animations
 
-## Getting Started
+## 🚀 Getting Started
 
-1. Install dependencies:
+### Prerequisites
 
-```bash
-npm install
-```
+- Node.js (v16 or higher)
+- npm or yarn
+- Expo CLI
+- Android Studio / Xcode (for mobile development)
 
-2. Start the development server:
+### Installation
 
-```bash
-npm start
-```
+1. **Clone the repository**
 
-3. Run on your preferred platform:
+   ```bash
+   git clone <repository-url>
+   cd movie-catalogue
+   ```
 
-```bash
-npm run android
-npm run ios
-npm run web
-```
+2. **Install dependencies**
 
-## Project Structure
+   ```bash
+   npm install
+   ```
+
+3. **Start the development server**
+
+   ```bash
+   npm start
+   ```
+
+4. **Run on your preferred platform**
+
+   ```bash
+   # Android
+   npm run android
+
+   # iOS
+   npm run ios
+
+   # Web
+   npm run web
+   ```
+
+## 📁 Project Structure
 
 ```
 app/
-├── components/          # Reusable UI components
-│   ├── WelcomeBoard.tsx
-│   ├── SearchBar.tsx
-│   ├── NowPlaying.tsx
-│   ├── ComingSoon.tsx
-│   └── MovieCard.tsx
-├── _layout.tsx         # Root layout configuration
-└── index.tsx          # Main home screen
+├── components/
+│   ├── WelcomeBoard.tsx      # Welcome header with user profile
+│   ├── SearchBar.tsx         # Interactive search input UI
+│   ├── NowPlaying.tsx        # Animated movie carousel
+│   ├── ComingSoon.tsx        # Upcoming movies list
+│   └── MovieCard.tsx         # Reusable movie card component
+├── _layout.tsx               # Navigation layout
+└── index.tsx                 # Main entry screen
 ```
 
-## Components
+## 🎨 Key Components
 
-- **WelcomeBoard**: User greeting and profile display
-- **SearchBar**: Search input with gradient background
-- **NowPlaying**: Animated movie carousel with pagination
-- **ComingSoon**: List of upcoming movies
-- **MovieCard**: Individual movie card with animations
+### WelcomeBoard
 
-## Development
+- Personalized greeting with user profile
+- Responsive layout with proper spacing
+- Dark theme integration
 
-This project uses a simplified architecture with:
+### SearchBar
 
-- Local CSS styles in each component
-- Mock data for UI development
-- Minimal dependencies for better performance
-- Clean and readable code structure
+- Gradient-styled input with focus states
+- Interactive search functionality
+- Clear button for user convenience
+
+### NowPlaying
+
+- Smooth animated carousel
+- Pagination dots for navigation
+- Movie cards with ratings and details
+
+### ComingSoon
+
+- Vertical list of upcoming movies
+- Thumbnail images with rating badges
+- Responsive grid layout
+
+### MovieCard
+
+- Reusable component for movie display
+- Support for poster images and fallbacks
+- Rating display with star icons
+- Smooth animations and interactions
+
+**Developed with ❤️ for Panda Hub**
