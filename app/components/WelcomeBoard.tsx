@@ -8,7 +8,7 @@ export default function WelcomeBoard() {
         <View style={styles.welcomeText}>
           <Text style={styles.welcomeMessage}>Welcome N95Ryan 👋</Text>
         </View>
-        <Text style={styles.subtitle}>Let&apos;s relax and watch a movie.</Text>
+        <Text style={styles.subtitle}>Let's relax and watch a movie.</Text>
       </View>
       <View style={styles.profileSection}>
         <Image
@@ -45,9 +45,6 @@ const styles = StyleSheet.create({
     color: "#9CA3AF",
     fontWeight: "400",
     marginRight: 8,
-  },
-  waveEmoji: {
-    fontSize: 16,
   },
   subtitle: {
     fontSize: 16,

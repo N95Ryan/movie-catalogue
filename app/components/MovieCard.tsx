@@ -103,7 +103,7 @@ const styles = StyleSheet.create({
   posterText: {
     color: "#FFFFFF",
     fontSize: 16,
-    fontWeight: "600",
+    fontWeight: "500",
     textAlign: "center",
   },
   movieInfo: {

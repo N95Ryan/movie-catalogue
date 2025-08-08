@@ -129,7 +129,6 @@ export default function NowPlaying({
                 const offsetX = event.nativeEvent.contentOffset.x;
                 const index = Math.round(offsetX / SNAP_INTERVAL);
 
-                // Mise à jour en temps réel de la pagination
                 if (index >= 0 && index < movieCount) {
                   setActiveIndex(index);
                 }
@@ -142,7 +141,6 @@ export default function NowPlaying({
             const offsetX = event.nativeEvent.contentOffset.x;
             const index = Math.round(offsetX / SNAP_INTERVAL);
 
-            // Gestion des limites avec correction automatique
             if (index >= movieCount) {
               navigateToIndex(0);
             } else if (index < 0) {
@@ -167,7 +165,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    paddingHorizontal: 36, // 20 + 16 pour l'alignement
+    paddingHorizontal: 36,
     marginBottom: 16,
   },
   sectionTitle: {
@@ -182,14 +180,16 @@ const styles = StyleSheet.create({
     fontWeight: "600",
   },
   carouselContainer: {
-    height: 450,
+    height: 410,
     justifyContent: "center",
   },
   paginationContainer: {
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
-    marginTop: 8, // Réduit de 16 à 8
+    marginTop: 0,
+    alignSelf: "center",
+    width: "100%",
   },
   paginationDot: {
     width: 8,
@@ -202,9 +202,9 @@ const styles = StyleSheet.create({
   },
   paginationDotActive: {
     backgroundColor: "#FF9500",
-    width: 24, // Plus large horizontalement
-    height: 8, // Même hauteur
-    borderRadius: 4, // Même border radius
+    width: 24,
+    height: 8,
+    borderRadius: 4,
   },
   paginationButton: {
     width: "100%",

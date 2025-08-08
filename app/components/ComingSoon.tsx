@@ -80,12 +80,12 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    paddingHorizontal: 36, // 20 + 16 pour l'alignement
+    paddingHorizontal: 36,
     marginBottom: 16,
   },
   sectionTitle: {
     fontSize: 20,
-    fontWeight: "700",
+    fontWeight: "400",
     color: "#FFFFFF",
   },
   seeAllText: {
@@ -131,7 +131,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   movieTitle: {
-    fontSize: 16,
+    fontSize: 18,
     fontWeight: "600",
     color: "#FFFFFF",
     marginBottom: 4,

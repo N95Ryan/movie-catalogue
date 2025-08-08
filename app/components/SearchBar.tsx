@@ -30,7 +30,7 @@ export default function SearchBar() {
 
 const styles = StyleSheet.create({
   container: {
-    paddingHorizontal: 36, // 20 + 16 pour l'alignement
+    paddingHorizontal: 36,
     marginTop: 20,
   },
   searchBar: {
