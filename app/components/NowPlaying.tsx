@@ -23,9 +23,9 @@ interface NowPlayingProps {
 }
 
 const defaultMovies: Movie[] = [
-  { id: 1, title: "Spider-Man No Way Home", genre: "Adventure" },
+  { id: 1, title: "The Matrix Resurrections", genre: "Sci-Fi" },
   { id: 2, title: "GOL", genre: "Action" },
-  { id: 3, title: "The Matrix Resurrections", genre: "Sci-Fi" },
+  { id: 3, title: "Spider-Man No Way Home", genre: "Adventure" },
   { id: 4, title: "Dune", genre: "Adventure" },
   { id: 5, title: "No Time to Die", genre: "Action" },
 ];
@@ -43,6 +43,17 @@ export default function NowPlaying({
   const [activeIndex, setActiveIndex] = useState(0);
   const movieCount = movies.length;
 
+  const navigateToIndex = (index: number) => {
+    if (index >= 0 && index < movieCount) {
+      const offset = index * SNAP_INTERVAL;
+      flatListRef.current?.scrollToOffset({
+        offset,
+        animated: true,
+      });
+      setActiveIndex(index);
+    }
+  };
+
   const renderMovieCard = ({ item, index }: { item: Movie; index: number }) => (
     <MovieCard
       movie={item}
@@ -55,13 +66,33 @@ export default function NowPlaying({
   const renderPaginationDots = () => (
     <View style={styles.paginationContainer}>
       {movies.map((_, index) => (
-        <View
+        <Animated.View
           key={index}
           style={[
             styles.paginationDot,
             index === activeIndex && styles.paginationDotActive,
+            {
+              transform: [
+                {
+                  scale: scrollX.interpolate({
+                    inputRange: [
+                      (index - 0.5) * SNAP_INTERVAL,
+                      index * SNAP_INTERVAL,
+                      (index + 0.5) * SNAP_INTERVAL,
+                    ],
+                    outputRange: [1, 1.1, 1],
+                    extrapolate: "clamp",
+                  }),
+                },
+              ],
+            },
           ]}
-        />
+        >
+          <TouchableOpacity
+            style={styles.paginationButton}
+            onPress={() => navigateToIndex(index)}
+          />
+        </Animated.View>
       ))}
     </View>
   );
@@ -92,27 +123,30 @@ export default function NowPlaying({
           scrollEventThrottle={16}
           onScroll={Animated.event(
             [{ nativeEvent: { contentOffset: { x: scrollX } } }],
-            { useNativeDriver: false }
+            {
+              useNativeDriver: false,
+              listener: (event: NativeSyntheticEvent<NativeScrollEvent>) => {
+                const offsetX = event.nativeEvent.contentOffset.x;
+                const index = Math.round(offsetX / SNAP_INTERVAL);
+
+                // Mise à jour en temps réel de la pagination
+                if (index >= 0 && index < movieCount) {
+                  setActiveIndex(index);
+                }
+              },
+            }
           )}
           onMomentumScrollEnd={(
             event: NativeSyntheticEvent<NativeScrollEvent>
           ) => {
-            let offsetX = event.nativeEvent.contentOffset.x;
-            let index = Math.round(offsetX / SNAP_INTERVAL);
+            const offsetX = event.nativeEvent.contentOffset.x;
+            const index = Math.round(offsetX / SNAP_INTERVAL);
 
+            // Gestion des limites avec correction automatique
             if (index >= movieCount) {
-              flatListRef.current?.scrollToOffset({
-                offset: 0,
-                animated: false,
-              });
-              setActiveIndex(0);
+              navigateToIndex(0);
             } else if (index < 0) {
-              const lastOffset = (movieCount - 1) * SNAP_INTERVAL;
-              flatListRef.current?.scrollToOffset({
-                offset: lastOffset,
-                animated: false,
-              });
-              setActiveIndex(movieCount - 1);
+              navigateToIndex(movieCount - 1);
             } else {
               setActiveIndex(index);
             }
@@ -155,7 +189,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
-    marginTop: 16,
+    marginTop: 8, // Réduit de 16 à 8
   },
   paginationDot: {
     width: 8,
@@ -163,8 +197,18 @@ const styles = StyleSheet.create({
     borderRadius: 4,
     backgroundColor: "#3A3A3A",
     marginHorizontal: 4,
+    justifyContent: "center",
+    alignItems: "center",
   },
   paginationDotActive: {
     backgroundColor: "#FF9500",
+    width: 24, // Plus large horizontalement
+    height: 8, // Même hauteur
+    borderRadius: 4, // Même border radius
+  },
+  paginationButton: {
+    width: "100%",
+    height: "100%",
+    borderRadius: 4,
   },
 });
