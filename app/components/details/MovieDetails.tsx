@@ -132,6 +132,6 @@ const styles = StyleSheet.create({
   trailerText: {
     color: colors.textPrimary,
     fontSize: typography.body,
-    fontWeight: "500",
+    fontWeight: "400",
   },
 });
