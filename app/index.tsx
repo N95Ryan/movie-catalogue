@@ -1,3 +1,4 @@
+import { useRouter } from "expo-router";
 import React from "react";
 import { ScrollView, StyleSheet } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -7,6 +8,7 @@ import SearchBar from "./components/SearchBar";
 import WelcomeBoard from "./components/WelcomeBoard";
 
 export default function HomeScreen() {
+  const router = useRouter();
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView
@@ -16,7 +18,14 @@ export default function HomeScreen() {
       >
         <WelcomeBoard />
         <SearchBar />
-        <NowPlaying />
+        <NowPlaying
+          onMoviePress={(m) =>
+            router.push({
+              pathname: "/movie/[id]",
+              params: { id: String(m.id) },
+            })
+          }
+        />
         <ComingSoon />
       </ScrollView>
     </SafeAreaView>

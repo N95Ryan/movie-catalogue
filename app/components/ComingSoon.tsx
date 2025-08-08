@@ -61,11 +61,6 @@ export default function ComingSoon({
             <Text style={styles.thumbnailText}>{item.title.split(" ")[0]}</Text>
           </View>
         )}
-        {item.rating && (
-          <View style={styles.ratingBadge}>
-            <Text style={styles.ratingText}>★ {item.rating.toFixed(1)}</Text>
-          </View>
-        )}
       </View>
       <View style={styles.movieInfo}>
         <Text style={styles.movieTitle} numberOfLines={1}>
@@ -154,20 +149,6 @@ const styles = StyleSheet.create({
     fontSize: 12,
     fontWeight: "600",
     textAlign: "center",
-  },
-  ratingBadge: {
-    position: "absolute",
-    top: 4,
-    right: 4,
-    backgroundColor: "rgba(0, 0, 0, 0.8)",
-    borderRadius: 8,
-    paddingHorizontal: 4,
-    paddingVertical: 2,
-  },
-  ratingText: {
-    color: "#FF9500",
-    fontSize: 10,
-    fontWeight: "600",
   },
   movieInfo: {
     flex: 1,
