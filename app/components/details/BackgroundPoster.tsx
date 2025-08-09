@@ -31,8 +31,9 @@ export default function BackgroundPoster({
           "rgba(0,0,0,0.25)",
           "rgba(0,0,0,0.55)",
           "#0E0E0E",
+          "#0E0E0E",
         ]}
-        locations={[0, 0.35, 0.7, 1]}
+        locations={[0, 0.35, 0.7, 0.85, 1]}
         style={StyleSheet.absoluteFillObject}
       />
     </View>
