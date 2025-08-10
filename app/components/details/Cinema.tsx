@@ -35,23 +35,19 @@ export default function Cinema({ items }: CinemaProps) {
           </View>
         ))}
       </View>
-      {/* Book Now area intentionally not wired with actions per requirements */}
-      <View style={styles.bookCta}>
-        <Text style={styles.bookText}>Book Now</Text>
-      </View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    paddingHorizontal: 20,
+    paddingHorizontal: 24,
     marginTop: 26,
     marginBottom: 40,
   },
   title: {
     color: colors.textPrimary,
-    fontWeight: "800",
+    fontWeight: "600",
     fontSize: 22,
     marginBottom: 12,
   },
@@ -62,19 +58,27 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     backgroundColor: colors.card,
-    borderRadius: 18,
+    borderRadius: 22,
     paddingHorizontal: 16,
     paddingVertical: 16,
     borderWidth: 1,
     borderColor: colors.stroke,
+    shadowColor: "#000",
+    shadowOpacity: 0.25,
+    shadowRadius: 8,
+    shadowOffset: { width: 0, height: 4 },
+    elevation: 3,
   },
   itemHighlighted: {
     borderColor: colors.accent,
+    borderWidth: 2,
+    shadowOpacity: 0.35,
+    elevation: 4,
   },
   cinemaName: {
     color: colors.textPrimary,
     fontSize: 16,
-    fontWeight: "800",
+    fontWeight: "400",
     marginBottom: 4,
   },
   cinemaMeta: {
@@ -90,9 +94,8 @@ const styles = StyleSheet.create({
   },
   badgeText: {
     color: colors.textPrimary,
-    fontWeight: "800",
+    fontWeight: "400",
     fontSize: 12,
-    textTransform: "lowercase",
   },
   bookCta: {
     backgroundColor: colors.accent,

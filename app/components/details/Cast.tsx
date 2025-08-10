@@ -30,12 +30,12 @@ export default function Cast({ cast }: CastProps) {
 
 const styles = StyleSheet.create({
   container: {
-    paddingHorizontal: 20,
+    paddingHorizontal: 24,
     marginTop: 24,
   },
   title: {
     color: colors.textPrimary,
-    fontWeight: "800",
+    fontWeight: "500",
     fontSize: 22,
     marginBottom: 12,
   },
@@ -48,18 +48,20 @@ const styles = StyleSheet.create({
     borderRadius: 14,
     paddingHorizontal: 14,
     paddingVertical: 12,
-    alignItems: "flex-start",
+    flexDirection: "row",
+    alignItems: "center",
   },
   avatar: {
     width: 52,
     height: 52,
     borderRadius: 26,
-    marginBottom: 8,
+    marginRight: 12,
   },
   name: {
     color: colors.textPrimary,
     fontSize: 14,
     fontWeight: "700",
     textAlign: "left",
+    flexShrink: 1,
   },
 });

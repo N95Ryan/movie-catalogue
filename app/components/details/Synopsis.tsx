@@ -6,24 +6,28 @@ type SynopsisProps = {
   text: string;
 };
 
-/**
- * Synopsis section with expandable text. Matches the design with a Read More link.
- */
 export default function Synopsis({ text }: SynopsisProps) {
   const [expanded, setExpanded] = useState(false);
 
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Synopsis</Text>
-      <Text style={styles.body} numberOfLines={expanded ? 0 : 2}>
+      <Text
+        style={styles.body}
+        numberOfLines={expanded ? 0 : 2}
+        ellipsizeMode="tail"
+      >
         {text}
-        {!expanded && ".. "}
-        {!expanded && (
-          <Text style={styles.readMore} onPress={() => setExpanded(true)}>
-            Read More
-          </Text>
-        )}
       </Text>
+      {expanded ? (
+        <Text style={styles.readMore} onPress={() => setExpanded(false)}>
+          Read Less
+        </Text>
+      ) : (
+        <Text style={styles.readMore} onPress={() => setExpanded(true)}>
+          Read More
+        </Text>
+      )}
     </View>
   );
 }
@@ -35,7 +39,7 @@ const styles = StyleSheet.create({
   },
   title: {
     color: colors.textPrimary,
-    fontWeight: "800",
+    fontWeight: "500",
     fontSize: 22,
     marginBottom: 8,
   },
@@ -47,5 +51,6 @@ const styles = StyleSheet.create({
   readMore: {
     color: colors.accent,
     fontWeight: "700",
+    marginTop: 6,
   },
 });

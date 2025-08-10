@@ -37,13 +37,15 @@ export default function MovieDetails({ movie }: MovieDetailsProps) {
       </View>
 
       <View style={styles.directorRow}>
-        <Image
-          source={{ uri: movie.director.avatarUrl }}
-          style={styles.directorAvatar}
-        />
-        <View style={{ flex: 1 }}>
-          <Text style={styles.directorLabel}>Director</Text>
-          <Text style={styles.directorName}>{movie.director.name}</Text>
+        <View style={styles.directorInfo}>
+          <Image
+            source={{ uri: movie.director.avatarUrl }}
+            style={styles.directorAvatar}
+          />
+          <View>
+            <Text style={styles.directorLabel}>Director</Text>
+            <Text style={styles.directorName}>{movie.director.name}</Text>
+          </View>
         </View>
         <TouchableOpacity style={styles.trailerBtn} activeOpacity={0.9}>
           <Ionicons name="play" size={16} color={colors.textPrimary} />
@@ -57,10 +59,10 @@ export default function MovieDetails({ movie }: MovieDetailsProps) {
 const styles = StyleSheet.create({
   wrapper: {
     borderRadius: 20,
-    paddingHorizontal: spacing.xxxl,
+    paddingHorizontal: spacing.xxl,
     paddingVertical: spacing.xxl,
-    marginHorizontal: 20,
-    marginTop: -300,
+    marginHorizontal: 24,
+    marginTop: -250,
     overflow: "hidden",
   },
   rowBetween: {
@@ -102,8 +104,15 @@ const styles = StyleSheet.create({
   directorRow: {
     flexDirection: "row",
     alignItems: "center",
+    justifyContent: "space-between",
     marginTop: 18,
-    gap: spacing.m,
+    gap: spacing.xs,
+  },
+  directorInfo: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: spacing.xs,
+    flexShrink: 1,
   },
   directorAvatar: {
     width: 44,
