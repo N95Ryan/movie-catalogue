@@ -12,6 +12,8 @@ type MovieDetailsProps = {
  * Dark card that overlays the poster's bottom area, showing title, meta, director and a CTA button.
  */
 export default function MovieDetails({ movie }: MovieDetailsProps) {
+  const [isSaved, setIsSaved] = React.useState(false);
+
   return (
     <LinearGradient
       colors={["#3A3A3A", "#2A2A2A", "#1A1A1A"]}
@@ -23,8 +25,16 @@ export default function MovieDetails({ movie }: MovieDetailsProps) {
         <Text style={styles.title} numberOfLines={2}>
           {movie.title}
         </Text>
-        <TouchableOpacity style={styles.saveBtn} activeOpacity={0.8}>
-          <Ionicons name="bookmark" size={22} color={colors.textPrimary} />
+        <TouchableOpacity
+          style={styles.saveBtn}
+          activeOpacity={0.8}
+          onPress={() => setIsSaved((prev) => !prev)}
+        >
+          <Ionicons
+            name="bookmark"
+            size={28}
+            color={isSaved ? colors.accent : colors.textPrimary}
+          />
         </TouchableOpacity>
       </View>
 
@@ -81,7 +91,6 @@ const styles = StyleSheet.create({
     width: 40,
     height: 40,
     borderRadius: radius.pill,
-    backgroundColor: "#1A1A1A",
     justifyContent: "center",
     alignItems: "center",
   },

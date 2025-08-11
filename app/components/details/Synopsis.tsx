@@ -1,5 +1,12 @@
-import React, { useState } from "react";
-import { StyleSheet, Text, View } from "react-native";
+import React, { useCallback, useEffect, useState } from "react";
+import {
+  LayoutAnimation,
+  Platform,
+  StyleSheet,
+  Text,
+  UIManager,
+  View,
+} from "react-native";
 import { colors } from "./theme";
 
 type SynopsisProps = {
@@ -8,6 +15,21 @@ type SynopsisProps = {
 
 export default function Synopsis({ text }: SynopsisProps) {
   const [expanded, setExpanded] = useState(false);
+
+  // Enable LayoutAnimation on Android
+  useEffect(() => {
+    if (
+      Platform.OS === "android" &&
+      UIManager.setLayoutAnimationEnabledExperimental
+    ) {
+      UIManager.setLayoutAnimationEnabledExperimental(true);
+    }
+  }, []);
+
+  const toggleExpanded = useCallback(() => {
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+    setExpanded((prev) => !prev);
+  }, []);
 
   return (
     <View style={styles.container}>
@@ -20,11 +42,11 @@ export default function Synopsis({ text }: SynopsisProps) {
         {text}
       </Text>
       {expanded ? (
-        <Text style={styles.readMore} onPress={() => setExpanded(false)}>
+        <Text style={styles.readMore} onPress={toggleExpanded}>
           Read Less
         </Text>
       ) : (
-        <Text style={styles.readMore} onPress={() => setExpanded(true)}>
+        <Text style={styles.readMore} onPress={toggleExpanded}>
           Read More
         </Text>
       )}

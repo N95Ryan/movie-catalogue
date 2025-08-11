@@ -1,5 +1,6 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
+  ActivityIndicator,
   Animated,
   Dimensions,
   FlatList,
@@ -22,57 +23,9 @@ interface Movie {
 }
 
 interface NowPlayingProps {
-  movies?: Movie[];
+  movies?: Movie[]; // si fourni, on n'appelle pas l'API en interne
   onMoviePress?: (movie: Movie) => void;
 }
-
-const defaultMovies: Movie[] = [
-  {
-    id: 1,
-    title: "The Matrix Resurrections",
-    genre: "Sci-Fi",
-    posterUrl:
-      "https://image.tmdb.org/t/p/w500/8Gxv8gSFCU0XGDykEGv7zR1n2ua.jpg",
-    rating: 8.2,
-    year: 2021,
-  },
-  {
-    id: 2,
-    title: "GOL",
-    genre: "Action",
-    posterUrl:
-      "https://image.tmdb.org/t/p/w500/1E5baAaEse26fej7uHcjOgEE2t2.jpg",
-    rating: 7.8,
-    year: 2022,
-  },
-  {
-    id: 3,
-    title: "Spider-Man No Way Home",
-    genre: "Adventure",
-    posterUrl:
-      "https://image.tmdb.org/t/p/w500/1g0dhYtq4irTY1GPXvft6k4YLjm.jpg",
-    rating: 8.5,
-    year: 2021,
-  },
-  {
-    id: 4,
-    title: "Dune",
-    genre: "Adventure",
-    posterUrl:
-      "https://image.tmdb.org/t/p/w500/d5NXSklXo0qyIYkgV94XAgMIckC.jpg",
-    rating: 8.0,
-    year: 2021,
-  },
-  {
-    id: 5,
-    title: "No Time to Die",
-    genre: "Action",
-    posterUrl:
-      "https://image.tmdb.org/t/p/w500/iUgygt3fscRoKWCV1d0C7FbM9TP.jpg",
-    rating: 7.3,
-    year: 2021,
-  },
-];
 
 const { width: SCREEN_WIDTH } = Dimensions.get("window");
 const CARD_WIDTH = 280;
@@ -80,12 +33,63 @@ const CARD_SPACING = 16;
 const SNAP_INTERVAL = CARD_WIDTH + CARD_SPACING;
 
 export default function NowPlaying({
-  movies = defaultMovies,
+  movies: externalMovies,
   onMoviePress,
 }: NowPlayingProps) {
   const flatListRef = useRef<FlatList>(null);
   const scrollX = useRef(new Animated.Value(0)).current;
   const [activeIndex, setActiveIndex] = useState(0);
+  const [movies, setMovies] = useState<Movie[]>(externalMovies ?? []);
+  const [loading, setLoading] = useState(!externalMovies);
+  const [error, setError] = useState<string | null>(null);
+
+  // Source de vérité: si des films sont fournis en props, on les utilise; sinon on tente un fetch minimal
+  useEffect(() => {
+    if (externalMovies && externalMovies.length > 0) {
+      setMovies(externalMovies);
+      setLoading(false);
+      setError(null);
+      return;
+    }
+
+    let cancelled = false;
+    async function fetchMovies() {
+      try {
+        setLoading(true);
+        setError(null);
+        const response = await fetch(
+          `https://api.themoviedb.org/3/movie/popular?api_key=${process.env.EXPO_PUBLIC_TMDB_API_KEY}&language=en-US&page=1`
+        );
+        if (!response.ok) throw new Error("TMDB non disponible");
+        const data = await response.json();
+        if (!Array.isArray(data.results)) throw new Error("Réponse inattendue");
+        const formattedMovies: Movie[] = data.results
+          .slice(0, 10)
+          .map((item: any) => ({
+            id: item.id,
+            title: item.title,
+            genre: "",
+            posterUrl: item.poster_path
+              ? `https://image.tmdb.org/t/p/w500${item.poster_path}`
+              : undefined,
+            rating: item.vote_average,
+            year: item.release_date
+              ? parseInt(String(item.release_date).slice(0, 4), 10)
+              : undefined,
+          }));
+        if (!cancelled) setMovies(formattedMovies);
+      } catch (err) {
+        if (!cancelled) setError("Impossible de charger les films.");
+      } finally {
+        if (!cancelled) setLoading(false);
+      }
+    }
+    fetchMovies();
+    return () => {
+      cancelled = true;
+    };
+  }, [externalMovies]);
+
   const movieCount = movies.length;
 
   const navigateToIndex = (index: number) => {
@@ -143,6 +147,24 @@ export default function NowPlaying({
     </View>
   );
 
+  if (loading) {
+    return (
+      <ActivityIndicator
+        size="large"
+        color="#FF9500"
+        style={{ marginTop: 50 }}
+      />
+    );
+  }
+
+  if (error) {
+    return (
+      <View style={{ paddingHorizontal: 36, paddingVertical: 24 }}>
+        <Text style={{ color: "#FF6B6B", textAlign: "center" }}>{error}</Text>
+      </View>
+    );
+  }
+
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -174,7 +196,6 @@ export default function NowPlaying({
               listener: (event: NativeSyntheticEvent<NativeScrollEvent>) => {
                 const offsetX = event.nativeEvent.contentOffset.x;
                 const index = Math.round(offsetX / SNAP_INTERVAL);
-
                 if (index >= 0 && index < movieCount) {
                   setActiveIndex(index);
                 }

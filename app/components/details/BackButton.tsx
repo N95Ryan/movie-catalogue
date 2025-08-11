@@ -1,8 +1,7 @@
 import { Feather } from "@expo/vector-icons";
-import { BlurView } from "expo-blur";
 import { useRouter } from "expo-router";
 import React from "react";
-import { StyleSheet, TouchableOpacity, ViewStyle } from "react-native";
+import { StyleSheet, TouchableOpacity, View, ViewStyle } from "react-native";
 import { colors, radius } from "./theme";
 
 type BackButtonProps = {
@@ -27,11 +26,11 @@ export default function BackButton({ style, onPress }: BackButtonProps) {
       style={[styles.button, style]}
       activeOpacity={0.8}
     >
-      <BlurView
-        style={StyleSheet.absoluteFillObject}
-        intensity={20}
-        tint="dark"
-        pointerEvents="none"
+      <View
+        style={[
+          StyleSheet.absoluteFillObject,
+          { backgroundColor: "rgba(0,0,0,0.25)" },
+        ]}
       />
       <Feather name="chevron-left" color={colors.textPrimary} size={28} />
     </TouchableOpacity>
