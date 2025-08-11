@@ -2,7 +2,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
 import React from "react";
 import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import { Movie, colors, radius, spacing, typography } from "./theme";
+import { Movie, colors, radius, spacing, typography } from "../theme";
 
 type MovieDetailsProps = {
   movie: Movie;
@@ -74,6 +74,9 @@ const styles = StyleSheet.create({
     marginHorizontal: 24,
     marginTop: -250,
     overflow: "hidden",
+    position: "relative",
+    zIndex: 2,
+    elevation: 2,
   },
   rowBetween: {
     flexDirection: "row",
@@ -126,23 +129,22 @@ const styles = StyleSheet.create({
   directorAvatar: {
     width: 44,
     height: 44,
-    borderRadius: 22,
+    borderRadius: 12,
   },
   directorLabel: {
     color: colors.textSecondary,
     fontSize: typography.small,
-    marginBottom: 2,
   },
   directorName: {
     color: colors.textPrimary,
     fontSize: typography.h3,
-    fontWeight: "700",
+    fontWeight: "500",
   },
   trailerBtn: {
     flexDirection: "row",
     alignItems: "center",
-    backgroundColor: "rgba(255, 255, 255, 0.1)",
-    borderRadius: 14,
+    backgroundColor: "rgba(114, 114, 114, 0.1)",
+    borderRadius: 10,
     paddingHorizontal: 14,
     paddingVertical: 10,
     gap: spacing.s,

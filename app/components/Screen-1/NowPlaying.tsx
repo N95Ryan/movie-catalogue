@@ -11,6 +11,8 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
+import { buildImageUrl, getPopularMovies } from "../../services/tmdb";
+import { colors } from "../theme";
 import MovieCard from "./MovieCard";
 
 interface Movie {
@@ -23,7 +25,8 @@ interface Movie {
 }
 
 interface NowPlayingProps {
-  movies?: Movie[]; // si fourni, on n'appelle pas l'API en interne
+  // If provided, component skips internal fetching and uses given movies
+  movies?: Movie[];
   onMoviePress?: (movie: Movie) => void;
 }
 
@@ -43,7 +46,7 @@ export default function NowPlaying({
   const [loading, setLoading] = useState(!externalMovies);
   const [error, setError] = useState<string | null>(null);
 
-  // Source de vérité: si des films sont fournis en props, on les utilise; sinon on tente un fetch minimal
+  // Source of truth: use provided movies; otherwise fetch a minimal set from TMDB
   useEffect(() => {
     if (externalMovies && externalMovies.length > 0) {
       setMovies(externalMovies);
@@ -57,26 +60,17 @@ export default function NowPlaying({
       try {
         setLoading(true);
         setError(null);
-        const response = await fetch(
-          `https://api.themoviedb.org/3/movie/popular?api_key=${process.env.EXPO_PUBLIC_TMDB_API_KEY}&language=en-US&page=1`
-        );
-        if (!response.ok) throw new Error("TMDB non disponible");
-        const data = await response.json();
-        if (!Array.isArray(data.results)) throw new Error("Réponse inattendue");
-        const formattedMovies: Movie[] = data.results
-          .slice(0, 10)
-          .map((item: any) => ({
-            id: item.id,
-            title: item.title,
-            genre: "",
-            posterUrl: item.poster_path
-              ? `https://image.tmdb.org/t/p/w500${item.poster_path}`
-              : undefined,
-            rating: item.vote_average,
-            year: item.release_date
-              ? parseInt(String(item.release_date).slice(0, 4), 10)
-              : undefined,
-          }));
+        const results = await getPopularMovies();
+        const formattedMovies: Movie[] = results.slice(0, 10).map((item) => ({
+          id: item.id,
+          title: item.title,
+          genre: "",
+          posterUrl: buildImageUrl(item.poster_path, "w500"),
+          rating: item.vote_average,
+          year: item.release_date
+            ? parseInt(String(item.release_date).slice(0, 4), 10)
+            : undefined,
+        }));
         if (!cancelled) setMovies(formattedMovies);
       } catch (err) {
         if (!cancelled) setError("Impossible de charger les films.");
@@ -151,7 +145,7 @@ export default function NowPlaying({
     return (
       <ActivityIndicator
         size="large"
-        color="#FF9500"
+        color={colors.accent}
         style={{ marginTop: 50 }}
       />
     );

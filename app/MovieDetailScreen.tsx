@@ -8,13 +8,13 @@ import {
   View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import BackButton from "./components/details/BackButton";
-import BackgroundPoster from "./components/details/BackgroundPoster";
-import Cast from "./components/details/Cast";
-import Cinema from "./components/details/Cinema";
-import MovieDetails from "./components/details/MovieDetails";
-import Synopsis from "./components/details/Synopsis";
-import { Movie, colors } from "./components/details/theme";
+import BackButton from "./components/Screen-2/BackButton";
+import BackgroundPoster from "./components/Screen-2/BackgroundPoster";
+import Cast from "./components/Screen-2/Cast";
+import Cinema from "./components/Screen-2/Cinema";
+import MovieDetails from "./components/Screen-2/MovieDetails";
+import Synopsis from "./components/Screen-2/Synopsis";
+import { Movie } from "./components/theme";
 import { buildImageUrl, getMovieDetailsWithCredits } from "./services/tmdb";
 
 export default function MovieDetailScreen() {
@@ -112,7 +112,7 @@ export default function MovieDetailScreen() {
   if (loading) {
     return (
       <View style={styles.container}>
-        <StatusBar barStyle="light-content" />
+        <StatusBar barStyle="light-content" backgroundColor="#131313" />
         <View style={[styles.loader]}>
           <ActivityIndicator size="large" color="#FF9500" />
         </View>
@@ -123,7 +123,7 @@ export default function MovieDetailScreen() {
   if (error || !movie) {
     return (
       <View style={styles.container}>
-        <StatusBar barStyle="light-content" />
+        <StatusBar barStyle="light-content" backgroundColor="#131313" />
       </View>
     );
   }
@@ -139,9 +139,11 @@ export default function MovieDetailScreen() {
           </SafeAreaView>
         </View>
         <MovieDetails movie={movie} />
-        <Synopsis text={movie.synopsis} />
-        <Cast cast={movie.cast} />
-        <Cinema items={movie.cinemas} />
+        <View style={styles.contentSolidBackground}>
+          <Synopsis text={movie.synopsis} />
+          <Cast cast={movie.cast} />
+          <Cinema items={movie.cinemas} />
+        </View>
       </ScrollView>
     </View>
   );
@@ -150,7 +152,7 @@ export default function MovieDetailScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: colors.background,
+    backgroundColor: "#131313",
   },
   loader: {
     flex: 1,
@@ -161,5 +163,14 @@ const styles = StyleSheet.create({
     position: "absolute",
     top: 44,
     left: 24,
+    zIndex: 4,
+    elevation: 4,
+  },
+  contentSolidBackground: {
+    backgroundColor: "#131313",
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+    marginTop: -20,
+    paddingTop: 24,
   },
 });

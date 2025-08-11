@@ -8,10 +8,11 @@ import {
   View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import ComingSoon from "./components/ComingSoon";
-import NowPlaying from "./components/NowPlaying";
-import SearchBar from "./components/SearchBar";
-import WelcomeBoard from "./components/WelcomeBoard";
+import ComingSoon from "./components/Screen-1/ComingSoon";
+import NowPlaying from "./components/Screen-1/NowPlaying";
+import SearchBar from "./components/Screen-1/SearchBar";
+import WelcomeBoard from "./components/Screen-1/WelcomeBoard";
+import { colors } from "./components/theme";
 import {
   TmdbMovieListItem,
   buildImageUrl,
@@ -52,7 +53,7 @@ export default function HomeScreen() {
     };
   }, []);
 
-  // NowPlaying se charge lui-même depuis l'API
+  // NowPlaying can self-fetch from the API when no movies are passed
 
   const comingSoonData = useMemo(() => {
     return popular.slice(10, 20).map((m) => ({
@@ -87,7 +88,7 @@ export default function HomeScreen() {
         ) : null}
         {loading ? (
           <View style={[styles.center, { paddingVertical: 24 }]}>
-            <ActivityIndicator size="large" color="#FF9500" />
+            <ActivityIndicator size="large" color={colors.accent} />
           </View>
         ) : null}
         <NowPlaying
@@ -107,7 +108,7 @@ export default function HomeScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#1C1C1C",
+    backgroundColor: colors.background,
   },
   scrollView: {
     flex: 1,

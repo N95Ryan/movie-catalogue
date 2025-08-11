@@ -2,7 +2,7 @@ import { Feather } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import React from "react";
 import { StyleSheet, TouchableOpacity, View, ViewStyle } from "react-native";
-import { colors, radius } from "./theme";
+import { colors, radius } from "../theme";
 
 type BackButtonProps = {
   style?: ViewStyle;

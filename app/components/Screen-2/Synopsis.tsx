@@ -7,7 +7,7 @@ import {
   UIManager,
   View,
 } from "react-native";
-import { colors } from "./theme";
+import { colors } from "../theme";
 
 type SynopsisProps = {
   text: string;
@@ -56,12 +56,12 @@ export default function Synopsis({ text }: SynopsisProps) {
 
 const styles = StyleSheet.create({
   container: {
-    paddingHorizontal: 20,
-    marginTop: 26,
+    paddingHorizontal: 24,
+    marginTop: 24,
   },
   title: {
     color: colors.textPrimary,
-    fontWeight: "500",
+    fontWeight: "600",
     fontSize: 22,
     marginBottom: 8,
   },
@@ -74,5 +74,6 @@ const styles = StyleSheet.create({
     color: colors.accent,
     fontWeight: "700",
     marginTop: 6,
+    alignSelf: "flex-end", // position the toggle at the right side of the synopsis
   },
 });

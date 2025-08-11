@@ -28,12 +28,12 @@ export default function BackgroundPoster({
       <LinearGradient
         colors={[
           "rgba(0,0,0,0)",
-          "rgba(0,0,0,0.25)",
-          "rgba(0,0,0,0.55)",
-          "#0E0E0E",
-          "#0E0E0E",
+          "rgba(0,0,0,0.18)",
+          "rgba(0,0,0,0.45)",
+          "rgba(19,19,19,0.98)",
+          "#131313",
         ]}
-        locations={[0, 0.35, 0.7, 0.85, 1]}
+        locations={[0, 0.45, 0.8, 0.95, 1]}
         style={StyleSheet.absoluteFillObject}
       />
     </View>
@@ -43,5 +43,7 @@ export default function BackgroundPoster({
 const styles = StyleSheet.create({
   container: {
     width: "100%",
+    position: "relative",
+    zIndex: 1,
   },
 });

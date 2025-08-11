@@ -1,6 +1,6 @@
 import React from "react";
 import { Image, ScrollView, StyleSheet, Text, View } from "react-native";
-import { Actor, colors } from "./theme";
+import { Actor, colors } from "../theme";
 
 type CastProps = {
   cast: Actor[];
@@ -36,7 +36,7 @@ const styles = StyleSheet.create({
   title: {
     color: colors.textPrimary,
     fontWeight: "500",
-    fontSize: 22,
+    fontSize: 20,
     marginBottom: 12,
   },
   row: {
@@ -46,21 +46,21 @@ const styles = StyleSheet.create({
     minWidth: 150,
     backgroundColor: "#2A2A2A",
     borderRadius: 14,
-    paddingHorizontal: 14,
-    paddingVertical: 12,
+    paddingHorizontal: 4,
+    paddingVertical: 4,
     flexDirection: "row",
     alignItems: "center",
   },
   avatar: {
     width: 52,
     height: 52,
-    borderRadius: 26,
+    borderRadius: 10,
     marginRight: 12,
   },
   name: {
     color: colors.textPrimary,
     fontSize: 14,
-    fontWeight: "700",
+    fontWeight: "500",
     textAlign: "left",
     flexShrink: 1,
   },
