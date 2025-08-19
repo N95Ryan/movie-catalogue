@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "Movie Catalogue",
-    "slug": "movie-catalogue",
+    "name": "Movie Mate",
+    "slug": "movie-mate",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",

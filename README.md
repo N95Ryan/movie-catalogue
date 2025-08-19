@@ -1,4 +1,4 @@
-# 🎬 Movie Catalogue App
+# 🎬 Movie Mate App
 
 A **React Native + Expo** mobile application built as part of the Panda Hub technical test.  
 The app displays a list of popular movies from **The Movie Database (TMDB)** API with a detail view for each movie.
@@ -39,7 +39,7 @@ The app displays a list of popular movies from **The Movie Database (TMDB)** API
 
    ```bash
    git clone <repository-url>
-   cd movie-catalogue
+   cd movie-mate
    ```
 
 2. **Install dependencies**
