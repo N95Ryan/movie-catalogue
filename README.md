@@ -113,5 +113,3 @@ app/
 - Support for poster images and fallbacks
 - Rating display with star icons
 - Smooth animations and interactions
-
-**Developed with ❤️ for Panda Hub**
