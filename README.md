@@ -1,7 +1,6 @@
 # 🎬 Movie Mate App
 
-A **React Native + Expo** mobile application built as part of the Panda Hub technical test.  
-The app displays a list of popular movies from **The Movie Database (TMDB)** API with a detail view for each movie.
+A **React Native + Expo** mobile application that displays a list of popular movies from **The Movie Database (TMDB)** API with a detail view for each movie.
 
 ## 📋 Features
 
