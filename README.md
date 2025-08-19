@@ -80,36 +80,3 @@ app/
 ├── _layout.tsx               # Navigation layout
 └── index.tsx                 # Main entry screen
 ```
-
-## 🎨 Key Components
-
-### WelcomeBoard
-
-- Personalized greeting with user profile
-- Responsive layout with proper spacing
-- Dark theme integration
-
-### SearchBar
-
-- Gradient-styled input with focus states
-- Interactive search functionality
-- Clear button for user convenience
-
-### NowPlaying
-
-- Smooth animated carousel
-- Pagination dots for navigation
-- Movie cards with ratings and details
-
-### ComingSoon
-
-- Vertical list of upcoming movies
-- Thumbnail images with rating badges
-- Responsive grid layout
-
-### MovieCard
-
-- Reusable component for movie display
-- Support for poster images and fallbacks
-- Rating display with star icons
-- Smooth animations and interactions
